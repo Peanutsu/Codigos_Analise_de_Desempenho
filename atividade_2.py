@@ -1,3 +1,4 @@
+import sys
 class No:
     def __init__(self, valor):
         self.valor = valor
@@ -27,10 +28,25 @@ class ListaEncadeada:
         novo_no.proximo = atual.proximo
         atual.proximo = novo_no
     
-    def remover(self):
-        if self.cabeca is None:
-            return
-        self.cabeca = self.cabeca.proximo
+    def remover(self, valor):
+        if self.cabeca == None:
+            raise ValueError("{} is not in list".format(valor))
+        elif self.cabeca.valor == valor:
+            self.cabeca = self.cabeca.proximo
+            return True
+        else:
+            ancestor = self.cabeca
+            pointer = self.cabeca.proximo
+            while(pointer):
+                if pointer.valor == valor:
+                    ancestor.proximo = pointer.proximo
+                    pointer.proximo = None
+                    return True
+                ancestor = pointer
+                pointer = pointer.proximo
+        raise ValueError("{} is not in list".format(valor))
+
+
     
     def imprimir(self):
         valores = []
@@ -64,7 +80,11 @@ def processar_arquivo(nome_arquivo):
             posicao = int(linha[2])
             lista.adicionar(valor, posicao)
         elif acao == 'R':
-            lista.remover()
+            deletado = int(linha[1])
+            lista.remover(deletado)
         elif acao == 'P':
             lista.imprimir()
-processar_arquivo("blabla.txt")
+if __name__ == "__main__":
+    if len(sys.argv)>1:
+        arquivo = sys.argv[1]
+        processar_arquivo(arquivo) #parametros da main ou args
