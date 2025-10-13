@@ -85,6 +85,7 @@ def processar_arquivo(nome_arquivo):
         elif acao == 'P':
             lista.imprimir()
 if __name__ == "__main__":
+    print(sys.argv)
     if len(sys.argv)>1:
         arquivo = sys.argv[1]
         processar_arquivo(arquivo) #parametros da main ou args
